@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+<head>
+  
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mining Exam">
+<link rel="apple-touch-icon" href="url('https://img1.wsimg.com/isteam/ip/0bf70def-deca-417e-962f-b76f39b1865e/mine-haul-truck-banner.jpg');">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GATE-style Mining Exam — 65 Qs</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#FFD700;
+  --bg-panel: rgba(18,18,20,0.66);
+  --card-border: rgba(255,255,255,0.06);
+  --muted: rgba(255,255,255,0.84);
+  --correct: #28a745;
+  --wrong: #e5534b;
+
+  /* New legend colors */
+  --answered: #2ecc71;     /* green */
+  --review: #3498db;       /* blue */
+  --not-visited: #7f8c8d;  /* grey */
+  --not-answered: #e74c3c; /* red */
+}
+
+/* your existing CSS… */
+
+/* ✅ Add legend styling here */
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend span {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+/* count styles (minimal, color-coded) */
+.legend .count {
+  font-weight: 700;
+  margin-left: 6px;
+  color: var(--muted);
+}
+.legend .count.answered { color: var(--answered); }
+.legend .count.review { color: var(--review); }
+.legend .count.not-visited { color: var(--not-visited); }
+.legend .count.not-answered { color: var(--not-answered); }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{  height:100%;  font-family: "Times New Roman", Times, serif;  background:#000;  color:#fff;}
+
+.container-wrap{
+  min-height:100vh;
+  background-image: url('https://img1.wsimg.com/isteam/ip/0bf70def-deca-417e-962f-b76f39b1865e/mine-haul-truck-banner.jpg');
+  background-size:cover;background-position:center center;
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6));z-index:0}
+.card{position:relative;z-index:2;background:var(--bg-panel);border-radius:14px;padding:18px;backdrop-filter:blur(8px);border:1px solid var(--card-border);box-shadow:0 20px 60px rgba(0,0,0,0.6);width:1100px;max-width:96%}
+.welcome{padding:30px;text-align:center}
+.welcome h1{color:var(--accent);margin-bottom:6px}
+.welcome p{color:var(--muted);margin-bottom:12px}
+.btn{padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer;font-size:16px}
+.btn.ghost{padding:10px 16px;border-radius:8px;border:none;background:white;color:#000;font-weight:700;cursor:pointer;font-size:16px}
+.btn.gho{padding:10px 16px;border-radius:8px;border:none;background:#3498db;color:#000;font-weight:700;cursor:pointer;font-size:16px}
+.btn.ghos{padding:10px 16px;border-radius:8px;border:none;background:#D3B683;color:#000;font-weight:700;cursor:pointer;font-size:16px}
+.btn.ghostt{padding:10px 16px;border-radius:8px;border:none;background:#2ecc71;color:#000;font-weight:700;cursor:pointer;font-size:16px}
+.layout{display:flex;gap:16px;margin-top:12px}
+.left{flex:1 1 68%}
+.right{flex-basis:32%;min-width:260px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.qnum{font-size:14px;color:var(--muted)}
+.qtext{font-size:18px;margin:10px 0;line-height:1.35}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);cursor:pointer;text-align:left}
+.opt.selected{outline:2px solid rgba(255,204,0,0.6)}
+.timer{font-weight:700;color:var(--accent);font-size:24px;text-align:right}
+.palette{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pmini {width: 36px;  height: 36px;  border-radius: 8px;  background: var(--not-visited);  display: flex;  align-items: center;  justify-content: center;  cursor: pointer;  border: 1px solid rgba(255,255,255,0.04);  color: #fff;  font-weight: 600;}
+.pmini.answered {  background: var(--answered);}
+.pmini.not-answered {  background: var(--not-answered);}
+.pmini.review {  background: var(--review);  color: #fff;}
+.pmini.active { outline: 3px solid var(--accent); }
+.pmini.active{outline:3px solid rgba(255,204,0,0.4)}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.small{font-size:13px;color:var(--muted)}
+.submit-area{text-align:center;margin-top:12px}
+.result-wrap{text-align:center;margin-top:16px;color:var(--muted)}
+.review-ui{display:none;margin-top:18px}
+.answer-correct{color:var(--accent);font-weight:700}
+.answer-wrong{color:var(--wrong);font-weight:700}
+.footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+.hidden{display:none}
+.modal-overlay{
+  position:fixed; inset:0; background: rgba(0,0,0,0.75);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+}
+.modal{
+  background:#0b0b0b; padding:28px; border-radius:12px; text-align:center; max-width:420px; width:90%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.04);
+}
+.modal h2{Color:var(--accent); margin-bottom:8px}
+.modal p{color:#fff; font-size:1.1rem}
+.modal button{margin-top:16px}
+@media (max-width:1000px){.layout{flex-direction:column}.right{order:-1}}
+</style>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+  onload="if(typeof renderMathInElement==='function'){ renderMathInElement(document.body, { delimiters: [{left:'$$', right:'$$', display:true}, {left:'\\(', right:'\\)', display:false}] }); }">
+</script>
+</head>
+<body>
+<div class="container-wrap">
+  <div class="overlay" aria-hidden="true"></div>
+
+  <div class="card" role="application" aria-label="GATE style mining quiz">
+
+    <!-- WELCOME -->
+    <div id="welcome" class="welcome" aria-live="polite">
+      <div style="text-align:center; margin-bottom:12px;">
+        <img src="https://img1.wsimg.com/isteam/ip/0bf70def-deca-417e-962f-b76f39b1865e/logo.png"
+             alt="Indian Coal Chronicles Logo"
+             style="max-width:100px; height:auto; display:inline-block;"/>
+      </div>
+      <h1>Welcome to Indian Coal Chronicles</h1>
+      <p><strong>GATE - Mining Practice Paper</strong>.</p>
+      <div style="text-align:left;max-width:820px;margin:12px auto;color:var(--muted);">
+        <strong>Instructions:</strong>
+    <ol style="margin-top: 8px; line-height: 1.6;">
+      <li>This paper comprises two sections: <strong>General Aptitude (GA)</strong> and <strong>Mining Subject (MN)</strong>.</li>
+      <li>The duration of the examination is <strong> 3 hours</strong>.</li>
+      <li><strong>Questions 1–10</strong> pertain to General Aptitude, while <strong>Questions 11–65</strong> relate to the Mining Subject, making up a total of <strong>100 marks</strong>.</li>
+      <li>
+        The types of questions included are as follows:
+        <ol type="a" style="margin-top: 4px; margin-left: 32px; list-style-type: lower-alpha;">
+          <li>Multiple Choice Questions <strong>(MCQ)</strong></li>
+          <li>Multiple Select Questions <strong>(MSQ)</strong></li>
+          <li>Numerical Answer Type <strong>(NAT)</strong> questions</li>
+        </ol>
+      </li>
+      <li>Marking Scheme: Each question carries either <strong>1 mark</strong> or <strong>2 marks</strong>.</li>
+      <li>
+        Negative Marking:
+        <ol type="a" style="margin-top: 4px; margin-left: 32px; list-style-type: lower-alpha;">
+          <li>Negative marking applies only to MCQ-type questions.</li>
+          <li>For a 1-mark MCQ, <strong>1/3 mark</strong> will be deducted for each incorrect response.</li>
+          <li>For a 2-mark MCQ, <strong>2/3 mark</strong> will be deducted for each incorrect response.</li>
+          <li><strong>No negative marking</strong> will be applied for incorrect answers to MSQ or NAT questions.</li>
+          <li><strong>No partial marking</strong> is applicable for MSQ questions.</li>
+        </ul>
+      </div>
+      <button id="startBtn" class="btn ghostt">Start</button>
+    </div>
+
+    <!-- QUIZ UI -->
+<div id="quizUI" class="hidden" aria-hidden="true">
+  <div class="layout">
+    <div class="left">
+      <div class="qmeta">
+        <div class="qnum" id="qnum">Question 1 / 65</div>
+        <div class="timer" id="timer">3:00:00</div>
+      </div>
+
+      <div class="qtext" id="qtext">Loading...</div>
+      <div class="options" id="options" role="group" aria-labelledby="qtext"></div>
+
+      <div class="controls">
+        <div>
+          <button id="clearBtn" class="btn ghost" aria-label="Clear selected option">Clear Response</button>
+          <button id="prevBtn" class="btn ghos" aria-label="Previous question">Previous</button>
+          <button id="nextBtn" class="btn" aria-label="Save and go to next question">Save & Next</button>
+          <button id="saveMarkBtn" class="btn gho" aria-label="Save and mark for review">Save & Mark for Review</button>
+          <button id="reviewNextBtn" class="btn gho" aria-label="Mark for review and go to next">Mark for Review & Next</button>
+        </div>
+
+        <div class="small" id="qmarks">1 mark • MCQ</div>
+      </div>
+
+      <div id="explain" class="small hidden" style="margin-top:10px;background:rgba(0,0,0,0.25);padding:10px;border-radius:8px"></div>
+    </div>
+
+    <div class="right">
+      <div>
+        <strong>Question Palette</strong>
+        <div class="palette" id="palette" aria-live="polite" style="margin-top:8px"></div>
+      </div>
+
+      <!-- Color Legend (enhanced with counts) -->
+      <div class="legend" aria-hidden="false" style="margin-top:12px">
+        <div><span style="background: var(--answered);"></span> Answered <span id="count-answered" class="count answered">(0)</span></div>
+        <div><span style="background: var(--review);"></span> Marked for Review <span id="count-review" class="count review">(0)</span></div>
+        <div><span style="background: var(--not-visited);"></span> Not Visited <span id="count-not-visited" class="count not-visited">(65)</span></div>
+        <div><span style="background: var(--not-answered);"></span> Not Answered <span id="count-not-answered" class="count not-answered">(0)</span></div>
+      </div>
+
+      <div class="submit-area">
+        <div class="result-wrap" id="liveInfo"></div>
+        <button id="submitBtn" class="btn ghostt" style="margin-top:10px">Submit</button>
+      </div>
+
+      <div style="margin-top:12px" class="footer">Indian Coal Chronicles</div>
+    </div>
+  </div>
+</div>
+
+    <!-- REVIEW -->
+    <div id="reviewUI" class="review-ui" aria-hidden="true">
+      <h2 style="color:var(--accent);text-align:center">Exam Completed</h2>
+      <div id="finalScore" style="font-size:1.4rem;text-align:center;margin-top:8px;color:#ffd700"></div>
+      <div id="reviewList" style="margin-top:12px;overflow:auto;padding:8px;border-top:1px solid rgba(255,255,255,0.03)"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* --------------------------
+  Helper funcs + dataset (kept your data and behaviour)
+--------------------------- */
+
+function marksForQ(qno){
+  if ((qno>=1 && qno<=5) || (qno>=11 && qno<=35)) return 1;
+  if ((qno>=6 && qno<=10) || (qno>=36 && qno<=65)) return 2;
+  return 1;
+}
+function negativeForQ(qno){
+  return marksForQ(qno) === 1 ? (1/3) : (2/3);
+}
+
+/* QUESTIONS — inserted as provided (65 items) */
+const QUESTIONS = [
+  {qno:1, section:'GA', type:'mcq', marks:marksForQ(1), question:" If ‘→’ denotes increasing order of intensity, then the meaning of the words  [drizzle → rain → downpour] is analogous to [ ______  → quarrel → feud].  Which one of the given options is appropriate to fill the blank?", options:["bicker","bog","dither","dodge"], answer:0, explanation:" "},
+  {qno:2, section:'GA', type:'mcq', marks:marksForQ(2), question:" Statements:<br>  1. All heroes are winners. <br>  2. All winners are lucky people.  <br>  Inferences: <br>  I. All lucky people are heroes.  <br>  II. Some lucky people are heroes.  <br>  III. Some winners are heroes.  <br>  Which of the above inferences can be logically deduced from statements 1 and 2?  ", options:[" Only I and II  "," Only II and III  "," Only I and III  "," Only III  "], answer:1, explanation:" "},
+  {qno:3, section:'GA', type:'mcq', marks:marksForQ(3), question:"A student was supposed to multiply a positive real number 𝑝 with another positive real number 𝑞. Instead, the student divided 𝑝 by 𝑞. If the percentage error in the student’s answer is 80%, the value of 𝑞 is", options:["5","√2","2","√5"], answer:3, explanation:" "},
+  {qno:4, section:'GA', type:'mcq', marks:marksForQ(4), question:"If the sum of the first 20 consecutive positive odd numbers is divided by 20², the result is", options:["1","20","2","1/2"], answer:0, explanation:" "},
+  {qno:5, section:'GA', type:'mcq', marks:marksForQ(5), question:"The ratio of the number of girls to boys in class VIII is the same as the ratio of the number of boys to girls in class IX. The total number of students (boys and girls) in classes VIII and IX is 450 and 360, respectively. If the number of girls in classes VIII and IX is the same, then the number of girls in each class is", options:["150","200","250","175"], answer:1, explanation:" "},
+  {qno:6, section:'GA', type:'mcq', marks:marksForQ(6), question:"The line ran _______ the page, right through the centre, and divided the page into two.", options:["across","of","between","about"], answer:0, explanation:" "},
+  {qno:7, section:'GA', type:'mcq', marks:marksForQ(7), question:"Kind : ________ : : Often : Seldom (By word meaning)", options:["Cruel","Variety","Type","Kindred"], answer:0, explanation:" "},
+  {qno:8, section:'GA', type:'mcq', marks:marksForQ(8), question:'In how many ways can cells in a 3×3 grid be shaded, such that each row and each column have exactly one shaded cell? An example of one valid shading is shown. <br> <img src="https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q4.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">', options:["2","9","3","6"], answer:3, explanation:" "},
+  {qno:9, section:'GA', type:'mcq', marks:marksForQ(9), question:"There are 4 red, 5 green, and 6 blue balls inside a box. If 𝑁 number of balls are picked simultaneously, what is the smallest value of 𝑁 that guarantees there will be at least two balls of the same colour? One cannot see the colour of the balls until they are picked.", options:["4","15","5","2"], answer:0, explanation:" "},
+  {qno:10, section:'GA', type:'mcq', marks:marksForQ(10), question:'Consider a circle with its centre at the origin (O), as shown. Two operations are allowed on the circle. <br>Operation 1 : Scale independently along the x and y axes. <br>Operation 2 : Rotation in any direction about the origin. <br>Which figure among the options can be achieved through a combination of these two operations on the given circle? <br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q5-1.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">', options:[ '<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q5-2.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src="https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q5-3.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src="https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q5-4.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src="https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q5-5.png"       alt="Longitudinal section of mined-out stope block"       style="max-width:100px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">'], answer:0, explanation:" "},
+  {qno:11, section:'MN', type:'mcq', marks:marksForQ(11), question:"In the Coward flammability diagram, the respective percentages of methane and oxygen at the nose limit are", options:["14.2, 0.0","14.1, 18.2","5.8, 12.1","5.0, 19.2"], answer:2, explanation:" "},
+  {qno:12, section:'MN', type:'mcq', marks:marksForQ(12), question:"If the transpose of a matrix is equal to its inverse, then the matrix is", options:["symmetric","orthogonal","skew symmetric","singular"], answer:1, explanation:" "},
+  {qno:13, section:'MN', type:'mcq', marks:marksForQ(13), question:"In the Moh’s scale of hardness, the minerals in increasing sequence of hardness are", options:["calcite, gypsum, topaz, diamond","topaz, gypsum, calcite, diamond","calcite, gypsum, diamond, topaz","gypsum, calcite, topaz, diamond"], answer:3, explanation:" "},
+  {qno:14, section:'MN', type:'mcq', marks:marksForQ(14), question:' A ball of weight W is supported on smooth walls as shown in the following figure. R₁ and R₂ are reactions from the walls 1 and 2. <br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q9-1.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;"><br><br>The free body diagram of the ball is represented by ', options:[ '<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q9-2.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q9-3.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q9-4.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q9-5.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">'], answer:0, explanation:" "},
+  {qno:15, section:'MN', type:'mcq', marks:marksForQ(15), question:"For a 25 mm diameter spherical charge, the maximum allowable charge length in cm is", options:["15.0","25.0","30.0","150.0"], answer:0, explanation:" "},
+  {qno:16, section:'GA', type:'mcq', marks:marksForQ(16), question:"Mr. X speaks _________ Japanese _________ Chinese.", options:["neither / or","either / nor","neither / nor","also / but"], answer:2, explanation:" "},
+  {qno:17, section:'GA', type:'mcq', marks:marksForQ(17), question:"A sum of money is to be distributed among P, Q, R, and S in the proportion 5 : 2 : 4 : 3, respectively. <br><br>If R gets ₹1000 more than S, what is the share of Q (in ₹)?", options:["500","1000","1500","2000"], answer:3, explanation:" "},
+  {qno:18, section:'GA', type:'mcq', marks:marksForQ(18), question:"A trapezium has vertices marked as P, Q, R and S (in that order anticlockwise). The side PQ is parallel to side SR. <br><br>Further, it is given that PQ = 11 cm, QR = 4 cm, RS = 6 cm and SP = 3 cm. <br><br>What is the shortest distance between PQ and SR (in cm)?", options:["1.80","2.40","4.20","5.76"], answer:1, explanation:" "},
+  {qno:19, section:'GA', type:'mcq', marks:marksForQ(19), question: 'The figure shows a grid formed by a collection of unit squares. The unshaded unit square in the grid represents a hole. <br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q6.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;"><br>What is the maximum number of squares without a “hole in the interior” that can be formed within the 4×4 grid using the unit squares as building blocks?', options:["15","20","21","26"], answer:1, explanation:" "},
+  {qno:20, section:'GA', type:'mcq', marks:marksForQ(20), question: 'An art gallery engages a security guard to ensure that the items displayed are protected. The diagram below represents the plan of the gallery where the boundary walls are opaque. The location the security guard posted is identified such that all the inner space (shaded region in the plan) of the gallery is within the line of sight of the security guard. <br><br>If the security guard does not move around the posted location and has a 360° view, which one of the following correctly represents the set of ALL possible locations among the locations P, Q, R and S, where the security guard can be posted to watch over the entire inner space of the gallery. <br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q7.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">', options:["P and Q","Q","Q and S","R and S"], answer:2, explanation:" "},
+  {qno:21, section:'GA', type:'mcq', marks:marksForQ(21), question:"(i) Arun and Aparna are here.<br>(ii) Arun and Aparna is here.<br>(iii) Arun’s families is here.<br>(iv) Arun’s family is here.<br>Which of the above sentences are grammatically CORRECT?", options:["(i) and (ii)","(i) and (iv)","(ii) and (iv)","(iii) and (iv)"], answer:1, explanation:" "},
+  {qno:22, section:'GA', type:'mcq', marks:marksForQ(22), question:'<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q8-1.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:300px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;"><br><br> The mirror image of the above text about the x-axis is ', options:[ '<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q8-2.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q8-3.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q8-4.jpg"       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">','<br> <img src=" https://raw.githubusercontent.com/indiancoalchronicles/GA1/refs/heads/main/q8-5.jpg "       alt="Longitudinal section of mined-out stope block"       style="max-width:200px; height:auto; border:1px solid rgba(255,255,255,0.2); border-radius:8px; display:block; margin:10px auto;">'], answer:1, explanation:" "},
+  {qno:23, section:'GA', type:'mcq', marks:marksForQ(23), question:"Two identical cube shaped dice each with faces numbered 1 to 6 are rolled simultaneously. The probability that an even number is rolled out on each dice is:", options:["1/36","1/12","1/8","1/4"], answer:3, explanation:" "},
+  {qno:24, section:'GA', type:'mcq', marks:marksForQ(24), question:"⊕ and ⊙ are two operators on numbers p and q such that 𝒑⊙𝒒 = 𝒑 − 𝒒, and 𝒑⊕𝒒 = 𝒑 × 𝒒. Then, (𝟗⊙(𝟔⊕𝟕))⊙(𝟕⊕(𝟔⊙𝟓)) =", options:["40","-26","-33","-40"], answer:3, explanation:" "},
+  {qno:25, section:'GA', type:'mcq', marks:marksForQ(25), question:"Four persons P, Q, R and S are to be seated in a row. R should not be seated at the second position from the left end of the row. The number of distinct seating arrangements possible is:", options:["6","9","18","24"], answer:2, explanation:" "},
+  {qno:26, section:'GA', type:'mcq', marks:marksForQ(26), question:"John Thomas, an __________________ writer, passed away in 2018.", options:["imminent","prominent","eminent","dominant"], answer:2, explanation:" "},
+  {qno:27, section:'GA', type:'mcq', marks:marksForQ(27), question:"____ I permitted him to leave, I wouldn’t have had any problem with him being absent, _____ I?", options:["Had, wouldn’t","Have, would","Had, would","Have, wouldn’t"], answer:2, explanation:" "},
+  {qno:28, section:'GA', type:'mcq', marks:marksForQ(28), question:"A worker noticed that the hour hand on the factory clock had moved by 225 degrees during her stay at the factory. For how long did she stay in the factory?", options:["3.75 hours","4 hours and 15 mins","8.5 hours","7.5 hours"], answer:3, explanation:" "},
+  {qno:29, section:'GA', type:'mcq', marks:marksForQ(29), question:"The sum and product of two integers are 26 and 165 respectively. The difference between these two integers is _____.", options:["2","3","4","6"], answer:2, explanation:" "},
+  {qno:30, section:'GA', type:'mcq', marks:marksForQ(30), question:"The minister avoided any mention of the issue of women’s reservation in the private sector. He was accused of __________ the issue.", options:["collaring","skirting","tying","belting"], answer:1, explanation:" "},
+  {qno:31, section:'GA', type:'mcq', marks:marksForQ(31), question:"“From where are they bringing their books? ________ bringing _______ books from ____.”<br><br>The words that best fill the blanks in the above sentence are", options:["Their, they’re, there","They’re, their, there","There, their, they’re","They’re, there, there"], answer:1, explanation:" "},
+  {qno:32, section:'GA', type:'mcq', marks:marksForQ(32), question:"“A _________ investigation can sometimes yield new facts, but typically organized ones are more successful.”<br><br>The word that best fills the blank in the above sentence is", options:["meandering","timely","consistent","systematic"], answer:0, explanation:" "},
+  {qno:33, section:'GA', type:'mcq', marks:marksForQ(33), question:"The area of a square is 𝑑. What is the area of the circle which has the diagonal of the square as its diameter?", options:["𝜋𝑑","𝜋𝑑²","(¼)𝜋𝑑²","(½)𝜋𝑑"], answer:3, explanation:" "},
+  {qno:34, section:'GA', type:'mcq', marks:marksForQ(34), question:"What would be the smallest natural number which when divided either by 20 or by 42 or by 76 leaves a remainder of 7 in each case?", options:["3047","6047","7987","63847"], answer:2, explanation:" "},
+  {qno:35, section:'GA', type:'mcq', marks:marksForQ(35), question:"What is the missing number in the following sequence?<br><br>2, 12, 60, 240, 720, 1440, _____, 0", options:["2880","1440","720","0"], answer:1, explanation:" "},
+  {qno:36, section:'GA', type:'mcq', marks:marksForQ(36), question:"The volume of a sphere of diameter 1 unit is _____ ___ than the volume of a cube of side 1 unit.", options:["least","less","lesser","low"], answer:1, explanation:" "},
+  {qno:37, section:'GA', type:'mcq', marks:marksForQ(37), question:"The unruly crowd demanded that the accused be _____________ without trial.", options:["hanged","hanging","hankering","hung"], answer:0, explanation:" "},
+  {qno:38, section:'GA', type:'mcq', marks:marksForQ(38), question:"Choose the statement(s) where the underlined word is used correctly:<br>(i) A prone is a dried plum.<br>(ii) He was lying prone on the floor.<br>(iii) People who eat a lot of fat are prone to heart disease.", options:["(i) and (iii) only","(iii) only","(i) and (ii) only","(ii) and (iii) only"], answer:3, explanation:" "},
+  {qno:39, section:'GA', type:'mcq', marks:marksForQ(39), question:"Fact: If it rains, then the field is wet.<br>Read the following statements:<br>(i) It rains<br>(ii) The field is not wet<br>(iii) The field is wet<br>(iv) It did not rain<br>Which one of the options given below is NOT logically possible, based on the given fact?", options:["If (iii), then (iv).","If (i), then (iii).","If (i), then (ii).","If (ii), then (iv)."], answer:2, explanation:" "},
+  {qno:40, section:'GA', type:'mcq', marks:marksForQ(40), question:"A window is made up of a square portion and an equilateral triangle portion above it. The base of the triangular portion coincides with the upper side of the square. If the perimeter of the window is 6 m, the area of the window in m² is ___________.", options:["1.43","2.06","2.68","2.88"], answer:1, explanation:" "},
+  {qno:41, section:'GA', type:'mcq', marks:marksForQ(41), question:"Choose the most appropriate word from the options given below to complete the following sentence.<br><br>A person suffering from Alzheimer’s disease ________ short-term memory loss.", options:["experienced","has experienced","is experiencing","experiences"], answer:3, explanation:" "},
+  {qno:42, section:'GA', type:'mcq', marks:marksForQ(42), question:"Choose the most appropriate word from the options given below to complete the following sentence.<br><br>____________ is the key to their happiness; they are satisfied with what they have.", options:["Contentment","Ambition","Perseverance","Hunger"], answer:0, explanation:" "},
+  {qno:43, section:'GA', type:'mcq', marks:marksForQ(43), question:"Which of the following options is the closest in meaning to the sentence below?<br><br>“As a woman, I have no country.”", options:["Women have no country.","Women are not citizens of any country.","Women’s solidarity knows no national boundaries.","Women of all countries have equal legal rights."], answer:2, explanation:" "},
+  {qno:44, section:'GA', type:'mcq', marks:marksForQ(44), question:"In any given year, the probability of an earthquake greater than Magnitude 6 occurring in the Garhwal Himalayas is 0.04. The average time between successive occurrences of such earthquakes is ____ years.", options:["25","20","15","10"], answer:0, explanation:" "},
+  {qno:45, section:'GA', type:'mcq', marks:marksForQ(45), question:"The population of a new city is 5 million and is growing at 20% annually. How many years would it take to double at this growth rate?", options:["3-4 years","4-5 years","5-6 years","6-7 years"], answer:0, explanation:" "},
+  
+  {qno:46, section:'MEM', subtype:'Blasting Cost', type:'nat', marks:marksForQ(46), question:"Surface blasting with given inputs — cost of blasting material per m3 of blasted rock (Rs) rounded to 2 decimals.", answerNum: 28.50, explanation:"Compute detonator + explosive cost per hole and divide by rock volume."},
+  {qno:47, section:'MEM', subtype:'Pit Slope', type:'nat', marks:marksForQ(47), question:"Pit slope with 5 benches, each 8m, bench slopes 70°, widths given — overall pit slope angle (deg) rounded to 2 decimals.", answerNum: 63.45, explanation:"Weighted geometry yields overall slope ≈63.45°."},
+  {qno:48, section:'MEM', subtype:'Rope Haulage', type:'nat', marks:marksForQ(48), question:"Direct rope haulage details given — minimum power to raise loaded cars (kW) rounded to 3 decimals.", answerNum: 12.345, explanation:"Compute work per time raising payload and convert to kW (example value)."},
+  {qno:49, section:'MN', type:'mcq', marks:marksForQ(49),    question:"Exposure to loud impulsive noise may lead to",    options:["Nystagmus","Siderosis","Tinnitus","Stannosis"],    answer:2},
+  {qno:50, section:'MN', type:'mcq', marks:marksForQ(50),    question:"In a self-contained closed-circuit breathing apparatus,",    options:[      "the exhaled air is released outside the apparatus.",      "the exhaled air is wholly absorbed within the apparatus.",      "CO₂ is released outside the apparatus after separating from exhaled air.",      "CO₂ from exhaled air is absorbed with a chemical."    ],    answer:3},
+  {qno:51, section:'MN', type:'mcq', marks:marksForQ(51),    question:"A rectangular mine airway of 2.0 m width and 2.5 m height has a bend with deflection of π/4 radian. If the radius of curvature of the bend is 4.0 m, the shock factor of the bend is (round off to three decimals)",    options:["0.014","0.024","0.051","0.071"],    answer:1},
+  {qno:52, section:'MN', type:'mcq', marks:marksForQ(52),    question:"In an underground coal mine, two fatalities and three serious bodily injuries occurred during the year 2022. The average daily employment is 1100 and annual working days is 300. The severity index as per DGMS guideline for the mine is",    options:["12.32","25.58","31.21","34.63"],    answer:2},
+  {qno:53, section:'MN', type:'mcq', marks:marksForQ(53),    question:"For a geared engine winding system, the man winding cage is placed at its normal position at pit top of the shaft. As per CMR 2017, the minimum space, in m, between the center of the hole of the detaching hook attached to the rope shackle and detaching belt plate is",    options:["3.6","2.4","1.8","1.5"],    answer:1},
+  {qno:54, section:'MN', type:'mcq', marks:marksForQ(54),    question:"The value of integral, I = ∫₀^(π/4) cosx sin³x dx is",    options:["1/64","1/16","1/4","1"],    answer:1},
+  {qno:55, section:'MN', type:'mcq', marks:marksForQ(55),    question:"The value of limₓ→0 (n sin5x / sin3x) is",    options:["2n","3n/5","6n/5","5n/3"],    answer:2},
+  {qno:56, section:'MN', type:'mcq', marks:marksForQ(56),    question:"The spherical semivariogram model γ(h) is represented by the following expression, where h is the lag distance. The parameters C₀, C and a are respectively known as",    options:[      "nugget, range and sill",      "sill, nugget and range",      "sill, range and nugget",      "nugget, sill and range"    ],    answer:0},
+  {qno:57, section:'MN', type:'mcq', marks:marksForQ(57),    question:"In a M/M/1 system, the inter-arrival time of dumpers to a shovel follows exponential distribution with a mean arrival rate of 9 dumpers per hour. The service time of the shovel follows exponential distribution with a mean service rate of 12 dumpers per hour. The probability that exactly one dumper is available to the shovel is",    options:["1/16","3/16","3/4","1/4"],    answer:1},
+  {qno:58, section:'MN', type:'mcq', marks:marksForQ(58),    question:"A project network with the sequence of five activities is shown. The crashing costs of activities are: A=5wk, B=6wk, C=8wk, D=3wk, E=4wk. Crashing cost per week (lakh INR): 4.0, 2.5, 2.0, 3.0, 4.0. If the project is crashed by one week, the increase in project cost, in lakh INR, is",    options:["2.0","2.5","3.0","4.0"],    answer:2},
+  {qno:59, section:'MN', type:'mcq', marks:marksForQ(59),    question:"Match the following features with the corresponding symbols: P: Shaft, Q: Staple shaft, R: Abandoned shaft, S: Abandoned staple shaft.",    options:[      "P→1, Q→3, R→4, S→2",      "P→4, Q→2, R→1, S→3",      "P→2, Q→4, R→3, S→1",      "P→4, Q→1, R→2, S→3"    ],    answer:0},
+  {qno:60, section:'MN', type:'mcq', marks:marksForQ(60),    question:"If the major (σ₁) and minor (σ₃) principal stresses for a rock element have a relationship as σ₃ = −½σ₁, the maximum shear stress is expressed by",    options:["(4/3)σ₁","(3/4)σ₁","(1/2)σ₁","(1/4)σ₁"],    answer:2},
+  {qno:61, section:'MN', type:'mcq', marks:marksForQ(61),    question:"The ore that is NOT used for commercial extraction of metal is",    options:["Wolframite","Dolomite","Cassiterite","Uraninite"],    answer:1},
+  {qno:62, section:'MN', type:'mcq', marks:marksForQ(62),    question:"The function of District Mineral Foundation established by state governments in India, is to",    options:[      "look after safety aspects of mining operations.",      "approve mining plan.",      "act as an environmental regulatory body.",      "monitor welfare of mining affected people."    ],    answer:3},
+  {qno:63, section:'MN', type:'mcq', marks:marksForQ(63),    question:"The percentage Fe and corresponding net value for an iron ore mine is given below: Fe(%):58→4000, 62→4500. Assuming net value versus grade curve to be a straight line, and mining cost of waste is INR 1000/m³; the correct representation of stripping ratio, SR (m³/tonne) versus Fe(%) grade curve is", options:[      "SR = −3.250 + 0.125 × Fe",      "SR = 3.250 + 0.125 × Fe",      "SR = 3250 + 125 × Fe",      "SR = −3250 + 125 × Fe"    ],    answer:0},
+  {qno:64, section:'MN', type:'mcq', marks:marksForQ(64),    question:"The magnitude of the curl of the vector F = 2x i + 3y j + 4z k, is",    options:["0","4","9","25"],    answer:0},
+  {qno:65, section:'MN', type:'nat', marks:marksForQ(65),    question:"An explosive with a density of 1.2 g/cm³ has a heat of explosion equal to 900 cal/g. If the heat of explosion of ANFO with density 0.8 g/cm³ is 950 cal/g, the bulk strength of the explosive relative to ANFO is _____. (round off up to 2 decimals)",    answerNum:0}
+];
+
+/* --------------------------
+   STATE
+--------------------------- */
+let state = {
+  started: false,
+  remainingSec: 180 * 60,
+  timerInterval: null,
+  currentIndex: 0,
+  answers: new Array(QUESTIONS.length).fill(null),
+  review: new Array(QUESTIONS.length).fill(false),
+  visited: new Array(QUESTIONS.length).fill(false), // track visits
+  submitted: false
+};
+
+/* --------------------------
+   DOM refs
+--------------------------- */
+const welcomeEl = document.getElementById('welcome');
+const startBtn = document.getElementById('startBtn');
+const quizUI = document.getElementById('quizUI');
+const qnumEl = document.getElementById('qnum');
+const qtextEl = document.getElementById('qtext');
+const optionsEl = document.getElementById('options');
+const timerEl = document.getElementById('timer');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const saveMarkBtn = document.getElementById('saveMarkBtn');
+const reviewNextBtn = document.getElementById('reviewNextBtn');
+const qmarksEl = document.getElementById('qmarks');
+const paletteEl = document.getElementById('palette');
+const submitBtn = document.getElementById('submitBtn');
+const liveInfo = document.getElementById('liveInfo');
+const explainEl = document.getElementById('explain');
+const reviewUI = document.getElementById('reviewUI');
+const finalScoreEl = document.getElementById('finalScore');
+const reviewListEl = document.getElementById('reviewList');
+
+const countAnsweredEl = document.getElementById('count-answered');
+const countNotAnsweredEl = document.getElementById('count-not-answered');
+const countNotVisitedEl = document.getElementById('count-not-visited');
+const countReviewEl = document.getElementById('count-review');
+
+/* --------------------------
+   TIMER UTIL
+--------------------------- */
+function formatTime(sec){
+  const h = String(Math.floor(sec/3600)).padStart(2,'0');
+  const m = String(Math.floor((sec%3600)/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
+
+function startTimer(){
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.timerInterval = setInterval(() => {
+    state.remainingSec--;
+    timerEl.textContent = formatTime(state.remainingSec);
+    if (state.remainingSec <= 0){
+      clearInterval(state.timerInterval);
+      showSubmissionModal('Time is up — the exam will be submitted automatically.', submitExam, true);
+    }
+  }, 1000);
+}
+
+/* --------------------------
+   PALETTE BUILD + STATE UPDATES
+--------------------------- */
+
+function buildPalette(){
+  // Build buttons initially with not-visited state
+  paletteEl.innerHTML = "";
+  QUESTIONS.forEach((q,i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pmini';
+    btn.dataset.index = i;
+    btn.textContent = i+1;
+    // initial: not-visited
+    btn.classList.remove('answered','not-answered','review','active');
+    btn.style.background = ''; // allow CSS default
+    btn.addEventListener('click', ()=> {
+      saveAnswer();
+      gotoQuestion(i);
+    });
+    paletteEl.appendChild(btn);
+  });
+  updatePaletteState(); // enforce classes based on state
+}
+
+function updatePaletteState(){
+  // Called whenever answers/review/visited/currentIndex change
+  const nodes = paletteEl.querySelectorAll('.pmini');
+
+  // counters for legend
+  let answeredCount = 0;
+  let notAnsweredCount = 0;
+  let notVisitedCount = 0;
+  let reviewCount = 0;
+
+  nodes.forEach(btn => {
+    const i = Number(btn.dataset.index);
+    btn.classList.remove('answered','not-answered','review','active');
+    // priority: active (current question)
+    if (i === state.currentIndex){
+      btn.classList.add('active');
+    }
+    // review has high visibility (blue)
+    if (state.review[i]){
+      btn.classList.add('review');
+      reviewCount++;
+      // note: even if not visited, review flag counts as review in tally
+    }
+    // visited & answered vs not-answered vs not-visited
+    if (!state.visited[i]){
+      // not visited
+      btn.classList.remove('answered','not-answered');
+      btn.style.background = '';
+      btn.classList.remove('review'); // do not show review for not-visited (unless explicitly set; but visited controls main)
+      // fallback to CSS default var(--not-visited)
+      btn.style.background = '';
+      notVisitedCount++;
+    } else {
+      // visited
+      // if answered -> answered
+      if (state.answers[i] !== null && state.answers[i] !== undefined){
+        btn.classList.add('answered');
+        btn.classList.remove('not-answered');
+        answeredCount++;
+      } else {
+        // visited but not answered
+        btn.classList.add('not-answered');
+        btn.classList.remove('answered');
+        notAnsweredCount++;
+      }
+    }
+    // let CSS handle colors — ensure classes present
+  });
+
+  // update legend counts (display in parentheses as requested)
+  if (countAnsweredEl) countAnsweredEl.textContent = `(${answeredCount})`;
+  if (countNotAnsweredEl) countNotAnsweredEl.textContent = `(${notAnsweredCount})`;
+  if (countNotVisitedEl) countNotVisitedEl.textContent = `(${notVisitedCount})`;
+  if (countReviewEl) countReviewEl.textContent = `(${reviewCount})`;
+}
+
+/* --------------------------
+   NAVIGATION helpers
+--------------------------- */
+function gotoQuestion(index){
+  if (index < 0) index = 0;
+  if (index >= QUESTIONS.length) index = QUESTIONS.length - 1;
+  state.currentIndex = index;
+  state.visited[index] = true; // mark visited when navigated to
+  renderQuestion();
+  updatePaletteState();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* --------------------------
+   RENDER QUESTION
+--------------------------- */
+function renderQuestion(){
+  if (!state.started){ state.started = true; startTimer(); }
+
+  const q = QUESTIONS[state.currentIndex];
+  qnumEl.textContent = `Question ${q.qno} / ${QUESTIONS.length}`;
+  qtextEl.innerHTML = q.question; // use innerHTML so <em> and $$ are preserved for KaTeX
+  qmarksEl.textContent = `${q.marks} mark${q.marks>1?'s':''} • ${q.type.toUpperCase()}`;
+
+  explainEl.classList.add('hidden');
+  explainEl.textContent = '';
+
+  optionsEl.innerHTML = '';
+
+  if (q.type === 'mcq'){
+    q.options.forEach((opt, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'opt';
+      const inputId = `opt_${state.currentIndex}_${idx}`;
+      // label and option rendered via innerHTML in case option includes math/html
+      wrap.innerHTML = `<input type="radio" id="${inputId}" name="opt" value="${idx}" style="margin-right:8px"><label for="${inputId}">${opt}</label>`;
+      wrap.addEventListener('click', ()=> {
+        document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+        wrap.classList.add('selected');
+        const radio = document.getElementById(inputId);
+        if (radio) radio.checked = true;
+      });
+      optionsEl.appendChild(wrap);
+    });
+    const a = state.answers[state.currentIndex];
+    if (a !== null && typeof a === 'number'){
+      const el = document.getElementById(`opt_${state.currentIndex}_${a}`);
+      if (el){ el.checked = true; el.parentElement.classList.add('selected'); }
+    }
+  } else if (q.type === 'msq'){
+    q.options.forEach((opt, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'opt';
+      const inputId = `ms_${state.currentIndex}_${idx}`;
+      wrap.innerHTML = `<input type="checkbox" id="${inputId}" name="optms" value="${idx}" style="margin-right:8px"><label for="${inputId}">${opt}</label>`;
+      wrap.addEventListener('click', ()=> {
+        wrap.classList.toggle('selected');
+        const cb = wrap.querySelector('input');
+        cb.checked = !cb.checked;
+      });
+      optionsEl.appendChild(wrap);
+    });
+    const a = state.answers[state.currentIndex];
+    if (Array.isArray(a)){
+      a.forEach(i => {
+        const el = document.getElementById(`ms_${state.currentIndex}_${i}`);
+        if (el){ el.checked = true; el.parentElement.classList.add('selected'); }
+      });
+    }
+  } else if (q.type === 'nat'){
+    const wrap = document.createElement('div');
+    wrap.className = 'opt';
+    const inputId = `nat_${state.currentIndex}`;
+    wrap.innerHTML = `<input id="${inputId}" type="number" step="any" style="width:160px;padding:8px;border-radius:6px;border:none;background:rgba(255,255,255,0.04);color:#fff" placeholder="Enter numeric answer">`;
+    optionsEl.appendChild(wrap);
+    const a = state.answers[state.currentIndex];
+    if (a !== null && a !== undefined){
+      document.getElementById(inputId).value = a;
+    }
+  }
+
+  // re-render KaTeX for the question area only (if available)
+  if (typeof renderMathInElement === "function") {
+    try {
+      renderMathInElement(qtextEl, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ]
+      });
+      // also render KaTeX inside options container (in case options contain math)
+      renderMathInElement(optionsEl, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ]
+      });
+    } catch (e) { /* if KaTeX fails, continue gracefully */ }
+  }
+
+  updatePaletteState();
+}
+
+/* --------------------------
+   SAVE / CLEAR / BUTTON ACTIONS
+--------------------------- */
+function saveAnswer(){
+  const q = QUESTIONS[state.currentIndex];
+  if (q.type === 'mcq'){
+    const el = document.querySelector(`#options input[type="radio"]:checked`);
+    state.answers[state.currentIndex] = el ? Number(el.value) : null;
+  } else if (q.type === 'msq'){
+    const checked = Array.from(document.querySelectorAll(`#options input[type="checkbox"]:checked`)).map(x=>Number(x.value));
+    state.answers[state.currentIndex] = checked.length ? checked : null;
+  } else if (q.type === 'nat'){
+    const el = document.getElementById(`nat_${state.currentIndex}`);
+    if (!el) { state.answers[state.currentIndex] = null; return; }
+    const v = el.value;
+    state.answers[state.currentIndex] = (v === '') ? null : Number(v);
+  }
+  // visited stays true once visited
+  state.visited[state.currentIndex] = true;
+  updatePaletteState();
+  liveInfo.textContent = 'Answers Saved';
+}
+
+/* Clear: per request — should clear selection and statuses except "not visited"
+   Behavior implemented:
+   - Clear current question's answer (set to null)
+   - Remove review flag for current question
+   - Keep visited = true (so it's shown as not-answered after clearing)
+*/
+clearBtn.addEventListener('click', () => {
+  // Clear DOM selection
+  state.answers[state.currentIndex] = null;
+  state.review[state.currentIndex] = false;
+  state.visited[state.currentIndex] = true; // ensure marked visited so palette shows not-answered
+  document.querySelectorAll('.opt').forEach(o => {
+    o.classList.remove('selected');
+    const inp = o.querySelector('input');
+    if (inp) inp.checked = false;
+  });
+  // If NAT input exists, clear it
+  const nat = document.getElementById(`nat_${state.currentIndex}`);
+  if (nat) nat.value = '';
+  updatePaletteState();
+});
+
+/* Prev / Next / Save & Mark / ReviewNext */
+prevBtn.addEventListener('click', () => {
+  saveAnswer();
+  gotoQuestion(state.currentIndex - 1);
+});
+nextBtn.addEventListener('click', () => {
+  saveAnswer();
+  gotoQuestion(state.currentIndex + 1);
+});
+saveMarkBtn.addEventListener('click', () => {
+  saveAnswer();
+  state.review[state.currentIndex] = true;
+  state.visited[state.currentIndex] = true;
+  updatePaletteState();
+});
+reviewNextBtn.addEventListener('click', () => {
+  saveAnswer();
+  state.review[state.currentIndex] = true;
+  state.visited[state.currentIndex] = true;
+  gotoQuestion(state.currentIndex + 1);
+  updatePaletteState();
+});
+
+/* --------------------------
+   PALETTE click handler (built into buildPalette)
+--------------------------- */
+
+/* --------------------------
+   CORRECTNESS
+--------------------------- */
+function isCorrect(idx){
+  const q = QUESTIONS[idx];
+  const ans = state.answers[idx];
+  if (ans === null || ans === undefined) return false;
+  if (q.type === 'mcq'){
+    return ans === q.answer;
+  } else if (q.type === 'msq'){
+    const correct = new Set(q.answerMulti || []);
+    const user = new Set(Array.isArray(ans) ? ans : []);
+    if (user.size !== correct.size) return false;
+    for (let v of correct) if (!user.has(v)) return false;
+    return true;
+  } else if (q.type === 'nat'){
+    const target = Number(q.answerNum !== undefined ? q.answerNum : q.answerNum);
+    const got = Number(ans);
+    if (isNaN(got) || isNaN(target)) return false;
+    return Math.abs(got - target) <= 1e-6;
+  }
+  return false;
+}
+
+/* --------------------------
+   SCORING
+--------------------------- */
+function computeScore(){
+  let total = 0;
+  for (let i=0;i<QUESTIONS.length;i++){
+    const q = QUESTIONS[i];
+    const a = state.answers[i];
+    if (a === null || a === undefined) continue;
+    if (q.type === 'mcq'){
+      if (a === q.answer) total += q.marks;
+      else total -= negativeForQ(q.qno);
+    } else if (q.type === 'msq'){
+      if (isCorrect(i)) total += q.marks;
+    } else if (q.type === 'nat'){
+      if (isCorrect(i)) total += q.marks;
+    }
+  }
+  total = Math.round((total + Number.EPSILON) * 100) / 100;
+  if (total < 0) total = 0;
+  return total;
+}
+function maxPossibleScore(){
+  return QUESTIONS.reduce((s,q)=> s + q.marks, 0);
+}
+
+/* --------------------------
+   SUBMIT & REVIEW
+--------------------------- */
+submitBtn.addEventListener('click', ()=> {
+  if (!confirm('Submit exam now? You will not be able to change answers after submitting.')) return;
+  saveAnswer();
+  submitExam();
+});
+
+function showSubmissionModal(message, actionFn, autoAction=false){
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `<h2>Exam Submission</h2><p style="margin-top:8px">${message}</p>`;
+  const btn = document.createElement('button');
+  btn.className = 'btn ghostt';
+  btn.textContent = 'View Results';
+  btn.addEventListener('click', () => {
+    overlay.remove();
+    actionFn();
+  });
+  modal.appendChild(btn);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  if (autoAction){
+    setTimeout(()=> {
+      if (overlay.parentNode) overlay.remove();
+      actionFn();
+    }, 1200);
+  }
+}
+
+function submitExam(){
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.submitted = true;
+  const score = computeScore();
+  const maxScore = maxPossibleScore();
+
+  document.getElementById('quizUI').classList.add('hidden');
+  reviewUI.style.display = 'block';
+  reviewUI.setAttribute('aria-hidden', 'false');
+
+  finalScoreEl.textContent = `Your Final Score: ${score.toFixed(2)} / ${maxScore}  (${Math.round((score/maxScore)*10000)/100}%)`;
+
+  // Build review content (use innerHTML for question & explanation to allow <em> and LaTeX)
+  reviewListEl.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.padding = '8px';
+    wrap.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
+
+    const title = document.createElement('div');
+    title.innerHTML = `<strong>Q${q.qno} (${q.type.toUpperCase()}, ${q.marks}m) — ${q.section}${q.subtype? ' / ' + q.subtype : ''}</strong>`;
+    wrap.appendChild(title);
+
+    const qt = document.createElement('div');
+    qt.style.margin = '6px 0';
+    // <-- IMPORTANT: use innerHTML so <em>I</em> (italics) and math delimiters survive
+    qt.innerHTML = q.question;
+    wrap.appendChild(qt);
+
+    if (q.type === 'mcq' || q.type === 'msq'){
+      const ul = document.createElement('ul');
+      q.options.forEach((opt, idx) => {
+        const li = document.createElement('li');
+        const correct = (q.type === 'mcq') ? (idx === q.answer) : (q.answerMulti.includes(idx));
+        const userSelected = (q.type === 'mcq') ? (state.answers[i] === idx) : (Array.isArray(state.answers[i]) && state.answers[i].includes(idx));
+        // innerHTML so option text can include math/html
+        li.innerHTML = `${String.fromCharCode(65+idx)}. ${opt}`;
+        if (correct) li.style.color = 'var(--accent)';
+        if (userSelected && !correct) li.style.color = 'var(--wrong)';
+        if (userSelected && correct) li.style.fontWeight = '800';
+        ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    } else if (q.type === 'nat'){
+      const p = document.createElement('div');
+      p.innerHTML = `<strong>Correct:</strong> ${q.answerNum} &nbsp;&nbsp; <strong>Your answer:</strong> ${state.answers[i] !== null && state.answers[i] !== undefined ? state.answers[i] : 'No answer'}`;
+      wrap.appendChild(p);
+    }
+
+    if (q.explanation){
+      const ex = document.createElement('div');
+      ex.style.marginTop = '6px';
+      ex.style.color = 'var(--muted)';
+      // use innerHTML so <em> and math delimiters render
+      ex.innerHTML = `Explanation: ${q.explanation}`;
+      wrap.appendChild(ex);
+    }
+
+    reviewListEl.appendChild(wrap);
+  });
+
+  // After all review HTML is appended, re-render KaTeX inside the review container
+  if (typeof renderMathInElement === "function") {
+    try {
+      renderMathInElement(reviewListEl, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ]
+      });
+    } catch(e) { /* ignore rendering errors */ }
+  }
+
+  showSubmissionModal(`You scored ${score.toFixed(2)} out of ${maxScore}.`, ()=> {
+    finalScoreEl.scrollIntoView({behavior:'smooth'});
+  }, false);
+}
+
+/* --------------------------
+   START QUIZ
+--------------------------- */
+startBtn.addEventListener('click', ()=>{ 
+  welcomeEl.classList.add('hidden');
+  quizUI.classList.remove('hidden');
+  quizUI.setAttribute('aria-hidden', 'false');
+  buildPalette();
+  gotoQuestion(0);
+  timerEl.textContent = formatTime(state.remainingSec);
+});
+
+/* KEYBOARD NAV */
+window.addEventListener('keydown', (e)=>{ 
+  if (state.submitted) return;
+  if (e.key === 'ArrowLeft'){ saveAnswer(); gotoQuestion(state.currentIndex - 1); }
+  if (e.key === 'ArrowRight'){ saveAnswer(); gotoQuestion(state.currentIndex + 1); }
+});
+
+/* initialize no-op until start */
+function init(){ /* nothing until start */ }
+init();
+</script>
+</body>
+</html>
